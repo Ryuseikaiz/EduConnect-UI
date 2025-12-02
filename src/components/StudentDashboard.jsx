@@ -1,4 +1,4 @@
-import { FiSearch, FiFileText, FiClipboard, FiAward, FiChevronLeft, FiChevronRight, FiBook, FiAlertCircle, FiBell, FiCalendar } from 'react-icons/fi'
+import { FiSearch, FiFileText, FiClipboard, FiAward, FiChevronLeft, FiChevronRight, FiBook, FiAlertCircle, FiBell, FiCalendar, FiClock } from 'react-icons/fi'
 import { useState, useEffect } from 'react'
 
 function StudentDashboard() {
