@@ -89,11 +89,11 @@ function AdminUsers() {
       align: 'center',
       render: () => (
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-          <button className="btn btn-secondary" style={{ fontSize: '13px', padding: '6px 12px' }}>
-            <FiEdit size={14} />
+          <button className="btn-icon edit">
+            <FiEdit size={16} />
           </button>
-          <button className="btn btn-secondary" style={{ fontSize: '13px', padding: '6px 12px' }}>
-            <FiTrash2 size={14} />
+          <button className="btn-icon delete">
+            <FiTrash2 size={16} />
           </button>
         </div>
       )
@@ -113,9 +113,9 @@ function AdminUsers() {
         title="All Users"
         data={users}
         columns={columns}
-        onImport={() => alert('Import Excel clicked')}
         onCreate={() => alert('Add User clicked')}
         createLabel="Add User"
+        onImport={() => alert('Import Excel clicked')}
         selectable={true}
       />
     </div>

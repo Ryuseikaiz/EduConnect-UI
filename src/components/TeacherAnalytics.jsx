@@ -38,15 +38,15 @@ function TeacherAnalytics() {
           <h1>Analytics</h1>
           <p>Track student performance and course statistics.</p>
         </div>
-        <button className="btn btn-primary">Export Report</button>
       </div>
 
       <DataTable
         title="Course Performance Overview"
         data={performanceData}
         columns={columns}
-        onImport={() => alert('Import Excel clicked')}
-        importLabel="Import Data"
+        onImport={() => alert('Export Report clicked')}
+        importLabel="Export Report"
+        selectable={false}
       />
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px' }}>

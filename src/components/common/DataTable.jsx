@@ -104,7 +104,7 @@ function DataTable({
                 </div>
                 <div style={{ display: 'flex', gap: '12px' }}>
                     {onImport && (
-                        <button className="btn btn-secondary" onClick={onImport}>
+                        <button className="btn btn-outline-orange" onClick={onImport}>
                             <FiDownload style={{ marginRight: '8px' }} /> {importLabel}
                         </button>
                     )}

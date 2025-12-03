@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { FiSearch, FiUsers, FiBook, FiBarChart, FiCalendar, FiPlus, FiFileText, FiCheckCircle, FiMoreVertical, FiClock, FiAward } from 'react-icons/fi'
+import { FiSearch, FiUsers, FiBook, FiBarChart, FiCalendar, FiPlus, FiFileText, FiCheckCircle, FiMoreVertical, FiClock, FiAward, FiX } from 'react-icons/fi'
 import DataTable from './common/DataTable'
 
 function TeacherClasses() {
   const [selectedClassId, setSelectedClassId] = useState(1)
   const [activeTab, setActiveTab] = useState('roster') // roster, assignments, grading
+  const [selectedAssignment, setSelectedAssignment] = useState(null)
 
   const classes = [
     {
@@ -123,8 +124,8 @@ function TeacherClasses() {
       accessor: 'actions',
       align: 'right',
       render: () => (
-        <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gray-500)' }}>
-          <FiMoreVertical />
+        <button className="btn-icon">
+          <FiMoreVertical size={16} />
         </button>
       )
     }
@@ -175,8 +176,61 @@ function TeacherClasses() {
     }
   ]
 
+  // Generate mock submission details for the modal
+  const getAssignmentDetails = (assignmentId) => {
+    // This would normally fetch from API
+    return studentsList.map((student, index) => {
+      const statuses = ['Submitted', 'Not Submitted', 'Late', 'Graded']
+      // Deterministic random based on index and assignmentId
+      const statusIndex = (index + assignmentId) % 4
+      const status = statuses[statusIndex]
+
+      return {
+        id: student.id,
+        studentName: student.name,
+        studentEmail: student.email,
+        status: status,
+        submittedAt: status === 'Not Submitted' ? '-' : '2024-05-10 14:30',
+        grade: status === 'Graded' ? Math.floor(Math.random() * 20 + 80) : '-'
+      }
+    })
+  }
+
+  const assignmentDetailsColumns = [
+    { header: 'Student Name', accessor: 'studentName', sortable: true, filterable: true },
+    { header: 'Email', accessor: 'studentEmail', sortable: true, filterable: true },
+    {
+      header: 'Status',
+      accessor: 'status',
+      sortable: true,
+      align: 'center',
+      render: (item) => {
+        let badgeClass = 'badge-secondary'
+        if (item.status === 'Submitted') badgeClass = 'badge-info'
+        if (item.status === 'Late') badgeClass = 'badge-warning'
+        if (item.status === 'Graded') badgeClass = 'badge-success'
+        if (item.status === 'Not Submitted') badgeClass = 'badge-danger' // Assuming you have a danger badge, or use inline style
+
+        const style = item.status === 'Not Submitted' ? { background: '#fee2e2', color: '#ef4444' } : {}
+
+        return (
+          <span className={`badge ${badgeClass}`} style={style}>
+            {item.status}
+          </span>
+        )
+      }
+    },
+    { header: 'Submitted At', accessor: 'submittedAt', align: 'center' },
+    {
+      header: 'Grade',
+      accessor: 'grade',
+      align: 'center',
+      render: (item) => <span style={{ fontWeight: '600', color: item.grade !== '-' ? 'var(--fpt-orange)' : 'inherit' }}>{item.grade}</span>
+    }
+  ]
+
   return (
-    <div style={{ height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column', position: 'relative' }}>
       <div className="dashboard-header" style={{ marginBottom: '16px', flexShrink: 0 }}>
         <div className="dashboard-welcome">
           <h1>My Classes</h1>
@@ -329,7 +383,28 @@ function TeacherClasses() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {assignmentsList.map(assignment => (
-                    <div key={assignment.id} style={{ padding: '16px', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius)', background: 'var(--gray-50)' }}>
+                    <div
+                      key={assignment.id}
+                      onClick={() => setSelectedAssignment(assignment)}
+                      style={{
+                        padding: '16px',
+                        border: '1px solid var(--gray-200)',
+                        borderRadius: 'var(--radius)',
+                        background: 'var(--gray-50)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--fpt-orange)'
+                        e.currentTarget.style.background = 'var(--white)'
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = 'var(--gray-200)'
+                        e.currentTarget.style.background = 'var(--gray-50)'
+                        e.currentTarget.style.boxShadow = 'none'
+                      }}
+                    >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                         <div style={{ fontWeight: '600', fontSize: '14px', color: 'var(--gray-900)' }}>{assignment.title}</div>
                         <FiFileText className="text-gray-400" />
@@ -358,6 +433,94 @@ function TeacherClasses() {
           </div>
         </div>
       </div>
+
+      {/* Full Screen Modal for Assignment Details */}
+      {selectedAssignment && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000,
+          padding: '40px'
+        }}>
+          <div style={{
+            background: 'var(--white)',
+            width: '100%',
+            height: '100%',
+            borderRadius: 'var(--radius)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.2)'
+          }}>
+            <div style={{
+              padding: '24px',
+              borderBottom: '1px solid var(--gray-200)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              background: 'var(--gray-50)'
+            }}>
+              <div>
+                <h2 style={{ fontSize: '24px', fontWeight: '700', color: 'var(--gray-900)', marginBottom: '4px' }}>{selectedAssignment.title}</h2>
+                <p style={{ color: 'var(--gray-600)', fontSize: '14px' }}>{selectedClass.code} • {selectedClass.name}</p>
+              </div>
+              <button
+                onClick={() => setSelectedAssignment(null)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'background 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0,0,0,0.05)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+              >
+                <FiX size={24} color="var(--gray-600)" />
+              </button>
+            </div>
+
+            <div style={{ flex: 1, padding: '24px', overflowY: 'auto', background: 'var(--white)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '32px' }}>
+                <div className="stat-card" style={{ padding: '20px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '8px' }}>Total Students</div>
+                  <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--gray-900)' }}>{selectedAssignment.total}</div>
+                </div>
+                <div className="stat-card" style={{ padding: '20px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '8px' }}>Submitted</div>
+                  <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--success)' }}>{selectedAssignment.submitted}</div>
+                </div>
+                <div className="stat-card" style={{ padding: '20px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '8px' }}>Pending</div>
+                  <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--warning)' }}>{selectedAssignment.total - selectedAssignment.submitted}</div>
+                </div>
+                <div className="stat-card" style={{ padding: '20px' }}>
+                  <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '8px' }}>Average Grade</div>
+                  <div style={{ fontSize: '24px', fontWeight: '700', color: 'var(--fpt-orange)' }}>{selectedAssignment.avgGrade}</div>
+                </div>
+              </div>
+
+              <DataTable
+                title="Submission Status"
+                data={getAssignmentDetails(selectedAssignment.id)}
+                columns={assignmentDetailsColumns}
+                selectable={true}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,0 +1,81 @@
+/* Custom Styles for EduConnect */
+
+/* Import Excel Button Style */
+.btn-outline-orange {
+    background: var(--white);
+    border: 1px solid var(--fpt-orange);
+    color: var(--fpt-orange);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.btn-outline-orange:hover {
+    background: var(--fpt-orange-bg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Orange Checkbox with White Tick */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--gray-300);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    background-color: var(--white);
+    transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--fpt-orange);
+    border-color: var(--fpt-orange);
+}
+
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+input[type="checkbox"]:hover {
+    border-color: var(--fpt-orange);
+}
+
+/* Action Button Style (No Border) */
+.btn-icon {
+    background: transparent;
+    border: none;
+    padding: 6px;
+    border-radius: var(--radius);
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon:hover {
+    background: var(--gray-100);
+    color: var(--fpt-orange);
+}
+
+.btn-icon.delete:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.btn-icon.edit:hover {
+    background: #dbeafe;
+    color: #3b82f6;
+}
