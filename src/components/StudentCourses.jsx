@@ -55,55 +55,14 @@ function StudentCourses({ onSelectCourse }) {
           <h1>My Courses</h1>
           <p>View and manage your enrolled courses.</p>
         </div>
-        <div className="search-bar">
-          <FiSearch />
-          <input type="text" placeholder="Search courses..." />
-        </div>
-      </div>
-
-      <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">{courses.length}</div>
-              <div className="stat-label">Total Courses</div>
-            </div>
-            <div className="stat-icon orange">
-              <FiBook />
-            </div>
+        <div style={{ display: 'flex', gap: '16px' }}>
+          <div className="semester-selector-btn">
+            <span>Spring 2025</span>
+            <FiBook />
           </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">12</div>
-              <div className="stat-label">Hours/Week</div>
-            </div>
-            <div className="stat-icon blue">
-              <FiClock />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">160</div>
-              <div className="stat-label">Total Students</div>
-            </div>
-            <div className="stat-icon green">
-              <FiUsers />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">66%</div>
-              <div className="stat-label">Avg. Progress</div>
-            </div>
-            <div className="stat-icon purple">
-              <FiPlay />
-            </div>
+          <div className="search-bar">
+            <FiSearch />
+            <input type="text" placeholder="Search courses..." />
           </div>
         </div>
       </div>
@@ -141,16 +100,6 @@ function StudentCourses({ onSelectCourse }) {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--gray-600)' }}>
                   <FiBook size={14} />
                   <span>{course.room} • {course.students} students</span>
-                </div>
-              </div>
-
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '13px', fontWeight: '500', color: 'var(--gray-700)' }}>Course Progress</span>
-                  <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--fpt-orange)' }}>{course.progress}%</span>
-                </div>
-                <div className="progress-bar">
-                  <div className="progress-fill" style={{ width: `${course.progress}%` }} />
                 </div>
               </div>
 

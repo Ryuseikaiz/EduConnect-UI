@@ -375,11 +375,26 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  transition: width var(--transition);
+}
+
+.sidebar.collapsed {
+  width: 80px;
 }
 
 .sidebar-header {
   padding: 20px;
   border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar.collapsed .sidebar-header {
+  padding: 20px 10px;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .sidebar-brand {
@@ -398,6 +413,7 @@
   justify-content: center;
   color: var(--white);
   font-size: 20px;
+  flex-shrink: 0;
 }
 
 .sidebar-brand-text h3 {
@@ -405,11 +421,38 @@
   font-weight: 600;
   color: var(--gray-900);
   margin-bottom: 2px;
+  white-space: nowrap;
 }
 
 .sidebar-brand-text p {
   font-size: 11px;
   color: var(--gray-500);
+  white-space: nowrap;
+}
+
+.sidebar-toggle-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  border-radius: var(--radius);
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sidebar-toggle-btn:hover {
+  background: var(--gray-50);
+  color: var(--fpt-orange);
+  border-color: var(--fpt-orange);
+}
+
+.sidebar.collapsed .sidebar-toggle-btn {
+  width: 100%;
+  height: 32px;
 }
 
 /* Semester Selector in Sidebar */
@@ -453,6 +496,10 @@
   padding: 16px 12px;
 }
 
+.sidebar.collapsed .sidebar-menu {
+  padding: 16px 8px;
+}
+
 .menu-label {
   font-size: 11px;
   font-weight: 600;
@@ -461,6 +508,7 @@
   letter-spacing: 0.5px;
   padding: 0 12px;
   margin-bottom: 8px;
+  white-space: nowrap;
 }
 
 .menu-item {
@@ -475,6 +523,13 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .menu-item {
+  justify-content: center;
+  padding: 10px 0;
 }
 
 .menu-item:hover {
@@ -489,11 +544,16 @@
 
 .menu-item svg {
   font-size: 18px;
+  flex-shrink: 0;
 }
 
 .sidebar-footer {
   padding: 16px 12px;
   border-top: 1px solid var(--gray-100);
+}
+
+.sidebar.collapsed .sidebar-footer {
+  padding: 16px 8px;
 }
 
 /* Dashboard Common */

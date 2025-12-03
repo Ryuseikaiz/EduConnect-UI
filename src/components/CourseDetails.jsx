@@ -32,88 +32,58 @@ function CourseDetails({ course, onBack, onStartQuiz, onSelectAssignment }) {
         </div>
       </div>
 
-      <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginBottom: '24px' }}>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">{course?.progress || 75}%</div>
-              <div className="stat-label">Progress</div>
-            </div>
-            <div className="stat-icon orange">
-              <FiPlay />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">12</div>
-              <div className="stat-label">Assignments</div>
-            </div>
-            <div className="stat-icon blue">
-              <FiFileText />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">45</div>
-              <div className="stat-label">Students</div>
-            </div>
-            <div className="stat-icon green">
-              <FiUsers />
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">Mon, Wed</div>
-              <div className="stat-label">Schedule</div>
-            </div>
-            <div className="stat-icon purple">
-              <FiClock />
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="dashboard-grid">
         <div className="dashboard-main">
-          {/* Course Materials */}
+          {/* Assignments */}
           <div className="section">
             <div className="section-header">
-              <h2>Course Materials</h2>
+              <h2>Assignments</h2>
             </div>
-            {materials.map(material => (
+            {materials.filter(m => m.type === 'Assignment').map(material => (
               <div key={material.id} className="deadline-item" style={{ marginBottom: '12px', padding: '16px', background: 'var(--white)', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius)' }}>
                 <div className="deadline-icon">
-                  {material.type === 'Assignment' ? <FiFileText /> : <FiBook />}
+                  <FiFileText />
                 </div>
                 <div className="deadline-content" style={{ flex: 1 }}>
                   <h4>{material.title}</h4>
                   <p>
-                    <span className={`badge ${material.type === 'Assignment' ? 'badge-orange' : 'badge-info'}`}>{material.type}</span>
+                    <span className="badge badge-orange">{material.type}</span>
                     {material.due && <span style={{ marginLeft: '8px', fontSize: '12px', color: 'var(--gray-500)' }}>Due: {material.due}</span>}
                     {material.submitted && <span style={{ marginLeft: '8px' }}><FiCheckCircle size={14} color="var(--success)" /></span>}
                   </p>
                 </div>
-                {material.type === 'Assignment' ? (
-                  material.submitted ? (
-                    <button className="btn btn-secondary" style={{ fontSize: '13px' }} onClick={() => onSelectAssignment?.(material)}>
-                      View Submission
-                    </button>
-                  ) : (
-                    <button className="btn btn-primary" style={{ fontSize: '13px' }} onClick={() => onSelectAssignment?.(material)}>
-                      <FiUpload size={14} /> Submit
-                    </button>
-                  )
+                {material.submitted ? (
+                  <button className="btn btn-secondary" style={{ fontSize: '13px' }} onClick={() => onSelectAssignment?.(material)}>
+                    View Submission
+                  </button>
                 ) : (
-                  <button className="btn btn-secondary" style={{ fontSize: '13px' }}>
-                    <FiDownload size={14} /> Download
+                  <button className="btn btn-primary" style={{ fontSize: '13px' }} onClick={() => onSelectAssignment?.(material)}>
+                    <FiUpload size={14} /> Submit
                   </button>
                 )}
+              </div>
+            ))}
+          </div>
+
+          {/* Learning Materials */}
+          <div className="section">
+            <div className="section-header">
+              <h2>Learning Materials</h2>
+            </div>
+            {materials.filter(m => m.type !== 'Assignment').map(material => (
+              <div key={material.id} className="deadline-item" style={{ marginBottom: '12px', padding: '16px', background: 'var(--white)', border: '1px solid var(--gray-200)', borderRadius: 'var(--radius)' }}>
+                <div className="deadline-icon">
+                  <FiBook />
+                </div>
+                <div className="deadline-content" style={{ flex: 1 }}>
+                  <h4>{material.title}</h4>
+                  <p>
+                    <span className="badge badge-info">{material.type}</span>
+                  </p>
+                </div>
+                <button className="btn btn-secondary" style={{ fontSize: '13px' }}>
+                  <FiDownload size={14} /> Download
+                </button>
               </div>
             ))}
           </div>

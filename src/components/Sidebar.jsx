@@ -1,11 +1,11 @@
-import { 
-  FiGrid, FiBook, FiMessageSquare, FiCalendar, 
+import {
+  FiGrid, FiBook, FiMessageSquare, FiCalendar,
   FiBarChart2, FiBookOpen, FiSettings, FiLogOut,
   FiUsers, FiFileText, FiAward, FiPieChart,
-  FiClipboard, FiDatabase
+  FiClipboard, FiDatabase, FiMenu, FiX
 } from 'react-icons/fi'
 
-function Sidebar({ currentRole, activeMenu, setActiveMenu }) {
+function Sidebar({ currentRole, activeMenu, setActiveMenu, isOpen, toggleSidebar }) {
   const menuItems = {
     student: [
       { id: 'dashboard', label: 'Dashboard', icon: FiGrid },
@@ -18,9 +18,7 @@ function Sidebar({ currentRole, activeMenu, setActiveMenu }) {
       { id: 'dashboard', label: 'Dashboard', icon: FiGrid },
       { id: 'classes', label: 'My Classes', icon: FiUsers },
       { id: 'assignments', label: 'Assignments', icon: FiFileText },
-      { id: 'grading', label: 'Grading', icon: FiAward },
       { id: 'analytics', label: 'Analytics', icon: FiPieChart },
-      { id: 'forums', label: 'Forums', icon: FiMessageSquare },
     ],
     admin: [
       { id: 'dashboard', label: 'Dashboard', icon: FiGrid },
@@ -35,21 +33,26 @@ function Sidebar({ currentRole, activeMenu, setActiveMenu }) {
   const currentMenuItems = menuItems[currentRole] || menuItems.student
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
         <div className="sidebar-brand">
           <div className="sidebar-logo">
             <FiBook />
           </div>
-          <div className="sidebar-brand-text">
-            <h3>EduConnect</h3>
-            <p>www.fpt.edu.vn</p>
-          </div>
+          {isOpen && (
+            <div className="sidebar-brand-text">
+              <h3>EduConnect</h3>
+              <p>www.fpt.edu.vn</p>
+            </div>
+          )}
         </div>
+        <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
+          {isOpen ? <FiX /> : <FiMenu />}
+        </button>
       </div>
 
       <div className="sidebar-menu">
-        <div className="menu-label">MENU</div>
+        {isOpen && <div className="menu-label">MENU</div>}
         {currentMenuItems.map(item => {
           const Icon = item.icon
           return (
@@ -57,22 +60,23 @@ function Sidebar({ currentRole, activeMenu, setActiveMenu }) {
               key={item.id}
               className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
               onClick={() => setActiveMenu(item.id)}
+              title={!isOpen ? item.label : ''}
             >
               <Icon />
-              <span>{item.label}</span>
+              {isOpen && <span>{item.label}</span>}
             </div>
           )
         })}
       </div>
 
       <div className="sidebar-footer">
-        <div className="menu-item">
+        <div className="menu-item" title={!isOpen ? 'Settings' : ''}>
           <FiSettings />
-          <span>Settings</span>
+          {isOpen && <span>Settings</span>}
         </div>
-        <div className="menu-item">
+        <div className="menu-item" title={!isOpen ? 'Logout' : ''}>
           <FiLogOut />
-          <span>Logout</span>
+          {isOpen && <span>Logout</span>}
         </div>
       </div>
     </div>

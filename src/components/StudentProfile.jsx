@@ -48,17 +48,7 @@ function StudentProfile({ student, onBack }) {
             </div>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-header">
-            <div>
-              <div className="stat-value">95%</div>
-              <div className="stat-label">Attendance</div>
-            </div>
-            <div className="stat-icon green">
-              <FiCalendar />
-            </div>
-          </div>
-        </div>
+
         <div className="stat-card">
           <div className="stat-header">
             <div>
