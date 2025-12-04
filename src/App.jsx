@@ -20,7 +20,13 @@ import TeacherAnalytics from './components/TeacherAnalytics'
 // Admin Components
 import AdminDashboard from './components/AdminDashboard'
 import AdminUsers from './components/AdminUsers'
+import AdminStudents from './components/AdminStudents'
+import AdminClasses from './components/AdminClasses'
+import AdminTeachers from './components/AdminTeachers'
+import AdminSettings from './components/AdminSettings'
 import AdminCourses from './components/AdminCourses'
+import AdminExams from './components/AdminExams'
+import AdminDatabase from './components/AdminDatabase'
 import AdminReports from './components/AdminReports'
 
 // Detail Pages
@@ -85,8 +91,14 @@ function App() {
     if (currentView === 'admin') {
       switch (activeMenu) {
         case 'dashboard': return <AdminDashboard />
-        case 'users': return <AdminUsers />
+        case 'students': return <AdminStudents />
+        case 'classes': return <AdminClasses />
+        case 'teachers': return <AdminTeachers />
+        case 'settings': return <AdminSettings />
+        case 'settings': return <AdminSettings />
         case 'courses': return <AdminCourses />
+        case 'exams': return <AdminExams />
+        case 'database': return <AdminDatabase />
         case 'reports': return <AdminReports />
         default: return <AdminDashboard />
       }
