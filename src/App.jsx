@@ -98,6 +98,9 @@ function App() {
         case 'settings': return <AdminSettings />
         case 'courses': return <AdminCourses />
         case 'exams': return <AdminExams />
+        case 'midterm': return <AdminExams title="Midterm Exams" />
+        case 'final_exam': return <AdminExams title="Final Exams" />
+        case 'practical_exam': return <AdminExams title="Practical Exams" />
         case 'database': return <AdminDatabase />
         case 'reports': return <AdminReports />
         default: return <AdminDashboard />

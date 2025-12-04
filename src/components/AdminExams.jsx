@@ -1,7 +1,7 @@
 import { FiEdit, FiTrash2, FiClock, FiCalendar } from 'react-icons/fi'
 import DataTable from './common/DataTable'
 
-function AdminExams() {
+function AdminExams({ title = 'Exam Management' }) {
   const exams = [
     {
       id: 1,
@@ -89,7 +89,7 @@ function AdminExams() {
     <div style={{ padding: '24px' }}>
       <div className="dashboard-header" style={{ marginBottom: '24px' }}>
         <div className="dashboard-welcome">
-          <h1>Exam Management</h1>
+          <h1>{title}</h1>
           <p>Schedule and manage examinations.</p>
         </div>
       </div>

@@ -122,7 +122,16 @@ function Sidebar({ currentRole, activeMenu, setActiveMenu, isOpen, toggleSidebar
               
               {/* Sub-menu */}
               {isOpen && item.subItems && isExpanded && (
-                <div className="sub-menu" style={{ paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div className="sub-menu" style={{ 
+                  paddingLeft: '12px', 
+                  marginLeft: '25px', 
+                  borderLeft: '1px solid #E5E7EB', // var(--gray-200)
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '4px',
+                  marginTop: '4px',
+                  marginBottom: '4px'
+                }}>
                   {item.subItems.map(sub => {
                     const SubIcon = sub.icon
                     return (
