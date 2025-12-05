@@ -43,16 +43,6 @@ function Sidebar({ currentRole, activeMenu, setActiveMenu, isOpen, toggleSidebar
         ]
       },
       { id: 'teachers', label: 'Teacher Management', icon: FiUsers },
-      { 
-        id: 'exams', 
-        label: 'Exam Management', 
-        icon: FiClipboard,
-        subItems: [
-          { id: 'midterm', label: 'Midterm', icon: FiClock },
-          { id: 'final_exam', label: 'Final Exam', icon: FiFileText },
-          { id: 'practical_exam', label: 'Practical Exam', icon: FiLayers }
-        ]
-      },
       { id: 'reports', label: 'Reports', icon: FiPieChart },
       { id: 'database', label: 'Database', icon: FiDatabase },
       { 
@@ -60,7 +50,8 @@ function Sidebar({ currentRole, activeMenu, setActiveMenu, isOpen, toggleSidebar
         label: 'Settings', 
         icon: FiSettings,
         subItems: [
-          { id: 'courses', label: 'Courses', icon: FiBook }
+          { id: 'courses', label: 'Courses', icon: FiBook },
+          { id: 'exams', label: 'Exams', icon: FiClipboard }
         ]
       },
     ]
